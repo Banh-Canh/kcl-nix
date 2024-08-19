@@ -2,27 +2,29 @@
 let rust = pkgs.rust-analyzer;
 in pkgs.rustPlatform.buildRustPackage rec {
   pname = "kclvm";
-  version = "0.8.5";
+  version = "0.9.3";
 
   src = pkgs.fetchFromGitHub {
     owner = "kcl-lang";
     repo = "kcl";
     rev = "v${version}";
-    hash = "sha256-S78Oh4lI+yMBQ/KVOj0qMYVgVZU9QufjfRpB29a0iOc=";
+    hash = "sha256-nk5oJRTBRj0LE2URJqno8AoZ+/342C2tEt8d6k2MAc8=";
   };
   # https://discourse.nixos.org/t/difficulty-using-buildrustpackage-with-a-src-containing-multiple-cargo-workspaces/10202/5
   sourceRoot = "source/kclvm";
 
-  cargoLock.lockFile = ./kclvm/Cargo.lock;
+  cargoLock.lockFile = "${src}/kclvm/Cargo.lock";
   cargoLock.outputHashes = {
     "inkwell-0.2.0" = "sha256-JxSlhShb3JPhsXK8nGFi2uGPp8XqZUSiqniLBrhr+sM=";
+    "protoc-bin-vendored-3.1.0" =
+      "sha256-RRqpPMJygpKGG5NYzD93iy4htpVqFhYMmfPgbRtpUqg=";
   };
 
   nativeBuildInputs = [ rust pkgs.rustc ];
   buildInputs = with pkgs; [
     clang
     # Replace llvmPackages with llvmPackages_X, where X is the latest LLVM version (at the time of writing, 16)
-    llvmPackages_12.bintools
+    llvmPackages_18.bintools
     glibc
     glibmm
     libxml2
@@ -31,7 +33,7 @@ in pkgs.rustPlatform.buildRustPackage rec {
     rustc
   ];
 
-  patches = [ ./kclvm/enable_protoc_env.patch ];
+  # patches = [ ./kclvm/enable_protoc_env.patch ];
   # preBuild = ''
   # '';
 

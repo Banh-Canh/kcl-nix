@@ -4,14 +4,14 @@ let
   kclvm_cli = pkgs.callPackage ./kclvm_cli.nix { };
 in pkgs.buildGoModule rec {
   pname = "kcl";
-  version = "0.8.5";
-  vendorHash = "sha256-jmqKMB85HxAlwH7FVjHrLCZQYuAJrguRfzIz1yMypjw=";
+  version = "0.9.3";
+  vendorHash = "sha256-AP1MOlnoTnD7luNR+1QtAdMiJL8tEEwJocT+9wBRgAo=";
 
   src = pkgs.fetchFromGitHub {
     owner = "kcl-lang";
     repo = "cli";
     rev = "v${version}";
-    hash = "sha256-ZjEMgQukhBGY3LWqsGmLj3lKfLtNNaQugQs0cSLMb80=";
+    hash = "sha256-QUVTRlzG8hT+iQx5dSycbRDAyeknjwGOWynCRw3oxlo=";
   };
 
   subPackages = [ "cmd/kcl" ];
